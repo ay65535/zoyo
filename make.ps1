@@ -19,11 +19,11 @@ try {
 [gc]::Collect()
 [gc]::WaitForPendingFinalizers()
 try {
-    [Runtime.Interopservices.Marshal]::ReleaseComObject($word) >$null
+   [Runtime.Interopservices.Marshal]::ReleaseComObject($word) >$null
 } catch {}
 # 変数除去
 if (Test-Path Variable:\word) {
-    Remove-Variable word
+   Remove-Variable word
 }
 
 # wordファイルのパス
@@ -32,9 +32,6 @@ $wordFile = Get-Item $wordName
 $wordFilePath = $wordFile.FullName
 
 pandoc --reference-doc custom-reference.docx -o $wordFilePath zoyo.md
-
-# pandoc -s zoyo.md -o zoyo.html
-# pandoc --reference-doc custom-reference.docx -o $wordFilePath.Replace('.docx', '-html.docx') zoyo.html
 
 # wordオブジェクト生成
 $word = New-Object -ComObject word.Application
@@ -46,4 +43,3 @@ while ($null -eq $word) {
 $word.Visible = $true
 # wordドキュメントを開く
 $word.Documents.Open($wordFilePath) >$null
-# $word.Documents.Open($wordFilePath.Replace('.docx', '-html.docx')) >$null
